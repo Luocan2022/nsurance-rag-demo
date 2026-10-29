@@ -1,0 +1,15 @@
+# 一键启动 Redis + RabbitMQ（本地开发用）
+# 启动：在本目录执行  docker compose up -d
+# Redis 端口 6379；RabbitMQ AMQP 5672，管理界面 http://localhost:15672 (guest/guest)
+services:
+  redis:
+    image: redis:7
+    container_name: mcms-redis
+    ports:
+      - "6379:6379"
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: mcms-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  阿里云 Maven 镜像备份。
+  全局生效版已放在 C:\Users\89433\.m2\settings.xml。
+  若 IDEA 没自动读取，可在 IDEA：Settings -> Build -> Build Tools -> Maven ->
+  User settings file 指向本文件，再点 Reload。
+-->
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <localRepository>${user.home}/.m2/repository</localRepository>
+    <mirrors>
+        <mirror>
+            <id>aliyun-public</id>
+            <name>Aliyun Public Mirror</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+    </mirrors>
+    <profiles>
+        <profile>
+            <id>aliyun-jdk17</id>
+            <properties>
+                <maven.compiler.source>17</maven.compiler.source>
+                <maven.compiler.target>17</maven.compiler.target>
+                <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+            </properties>
+        </profile>
+    </profiles>
+    <activeProfiles>
+        <activeProfile>aliyun-jdk17</activeProfile>
+    </activeProfiles>
+</settings>

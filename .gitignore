@@ -1,0 +1,27 @@
+# 编译输出
+target/
+!.mvn/wrapper/maven-wrapper.jar
+*.class
+
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.settings/
+.project
+.classpath
+
+# 日志与运行时
+logs/
+*.log
+
+# 系统
+.DS_Store
+Thumbs.db
+
+# 本地敏感配置（含 API Key / 数据库密码，不提交）
+application-local.yml
+application-local.properties
+*.env

@@ -1,0 +1,67 @@
+server:
+  port: 8080
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/mcmsuser?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # Redis 热缓存（本地用 docker compose up -d 启动；默认开关关，不连也能跑）
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      database: 0
+
+  # RabbitMQ 异步削峰（本地用 docker compose up -d 启动；默认开关关，不连也能跑）
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      simple:
+        acknowledge-mode: manual   # 手动ACK：消费成功才确认，失败重回队列
+
+
+  ai:
+    dashscope:
+      # 阿里云百炼 API Key：https://bailian.console.aliyun.com/ -> API-KEY 管理
+      # 免费额度足够开发联调，把下面这行替换成你自己的 key
+      api-key: sk-ws-H.YDPDMRH.iWnB.MEYCIQDD9WybFegY6j2IpkGFLIBsPRmFG7XYNJiKSioMUMPl3QIhAMroVIjRsTF54l6OPlemTdABLLosZnpxGQ88cmiduhqB
+      chat:
+        options:
+          # 对话模型：qwen-plus 性价比高，也可换 qwen-turbo / qwen-max
+          model: qwen-plus
+          temperature: 0.3
+      embedding:
+        options:
+          # 向量化模型（可省略，使用百炼默认 embedding；text-embedding-v3）
+          model: text-embedding-v3
+
+# RAG 业务参数
+rag:
+  chunk-size: 700        # 每个分片字符长度（保险长条款建议 500~800）
+  chunk-overlap: 100     # 相邻分片重叠字符，避免规则被截断
+  top-k: 3               # 检索最相关的 3 个片段
+  similarity-threshold: 0.4  # 相似度低于该值直接拒答，控制幻觉
+
+# 对话历史存储开关：
+#   cache: memory(默认本地缓存) / redis(切Redis热缓存)
+#   mq:    disabled(默认直接异步写库) / enabled(发RabbitMQ削峰)
+chat:
+  history:
+    cache: redis
+    mq: enabled
+
+logging:
+  level:
+    com.insurance.rag: INFO
+
+
